@@ -25,12 +25,12 @@ CREATE TYPE molfp;
 CREATE OR REPLACE FUNCTION molfp_in(cstring)
     RETURNS molfp
     AS 'libpgchem'
-    LANGUAGE C IMMUTABLE STRICT;
+    LANGUAGE 'c' IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION molfp_out(molfp)
     RETURNS cstring
    AS 'libpgchem'
-    LANGUAGE C IMMUTABLE STRICT;
+    LANGUAGE 'c' IMMUTABLE STRICT;
 
 CREATE TYPE molfp (
    input = molfp_in,
@@ -45,22 +45,22 @@ CREATE TYPE molfp (
 CREATE OR REPLACE FUNCTION molecule_in(cstring)
     RETURNS molecule
     AS 'libpgchem'
-    LANGUAGE C IMMUTABLE STRICT;
+    LANGUAGE 'c' IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION molecule_out(molecule)
     RETURNS cstring
    AS 'libpgchem'
-    LANGUAGE C IMMUTABLE STRICT;
+    LANGUAGE 'c' IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION molecule_recv(internal)
    RETURNS molecule
   AS 'libpgchem'
-   LANGUAGE C IMMUTABLE STRICT;
+   LANGUAGE 'c' IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION molecule_send(molecule)
    RETURNS bytea
   AS 'libpgchem'
-   LANGUAGE C IMMUTABLE STRICT;
+   LANGUAGE 'c' IMMUTABLE STRICT;
 
 CREATE TYPE molecule (
    input = molecule_in,
@@ -75,67 +75,67 @@ CREATE TYPE molecule (
 CREATE OR REPLACE FUNCTION molfp_compress(internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'C';
+LANGUAGE 'c';
 
 CREATE OR REPLACE FUNCTION molfp_decompress(internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'C';
+LANGUAGE 'c';
 
 CREATE OR REPLACE FUNCTION molfp_penalty(internal,internal,internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'C' WITH (isstrict);
+LANGUAGE 'c' WITH (isstrict);
 
 CREATE OR REPLACE FUNCTION molfp_picksplit(internal,internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'C' WITH (isstrict);
+LANGUAGE 'c' WITH (isstrict);
 
 CREATE OR REPLACE FUNCTION molfp_union(internal, internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'C';
+LANGUAGE 'c';
 
 CREATE OR REPLACE FUNCTION molfp_same(internal, internal, internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'C';
+LANGUAGE 'c';
 
 CREATE OR REPLACE FUNCTION molfp_consistent(internal,internal,int4)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'C';
+LANGUAGE 'c';
 
 CREATE OR REPLACE FUNCTION molecule_contained_in(molecule,molecule)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'C' with (isstrict);
+LANGUAGE 'c' with (isstrict);
 
 CREATE OR REPLACE FUNCTION molecule_contains(molecule,molecule)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'C' with (isstrict);
+LANGUAGE 'c' with (isstrict);
 
 CREATE OR REPLACE FUNCTION molecule_maybe_contained_in(molecule,molecule)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'C' with (isstrict);
+LANGUAGE 'c' with (isstrict);
 
 /*CREATE OR REPLACE FUNCTION molecule_maybe_contains(molecule,molecule)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'C' with (isstrict);*/
+LANGUAGE 'c' with (isstrict);*/
 
 CREATE OR REPLACE FUNCTION molecule_equals(molecule,molecule)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'C' with (isstrict);
+LANGUAGE 'c' with (isstrict);
 
 CREATE OR REPLACE FUNCTION molecule_similarity(molecule,molecule)
 RETURNS double precision
 AS 'libpgchem'
-LANGUAGE 'C' with (isstrict);
+LANGUAGE 'c' with (isstrict);
 
 CREATE OPERATOR < (
 		 LEFTARG = molecule,

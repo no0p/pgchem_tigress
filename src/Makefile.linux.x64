@@ -15,7 +15,9 @@ OBJS = reaction/reaction_op.o reaction/reaction_gist.o reaction/reaction_io.o mo
 
 SHLIB_LINK = -L${MATCHMOL_LIB_DIR} -lbarsoi ${OPENBABEL_LIB_DIRS} -lopenbabel -linchi -u __ZN9OpenBabel9MDLFormat11GetMIMETypeEv -u __ZN9OpenBabel13SMIBaseFormat11GetMIMETypeEv -u _ZTVN9OpenBabel14OBGroupContribE ${OPENBABEL_FORMAT_DIRS} -linchiformat -u _ZN9OpenBabel8GetInChIERSi -lz
 #PG_CPPFLAGS = -O2 -finline-functions -I. ${OPENBABEL_INCLUDE_DIRS} 
-PG_CPPFLAGS=-fPIC -O2 -finline-functions -funroll-loops -I. ${OPENBABEL_INCLUDE_DIRS} 
+
+## int4 doesn't work in gcc-4.6.3 anymore by default
+PG_CPPFLAGS=-fPIC -O2 -finline-functions -funroll-loops -Dint4=short -I. ${OPENBABEL_INCLUDE_DIRS} 
 
 ifdef USE_PGXS
 PGXS = $(shell pg_config --pgxs)

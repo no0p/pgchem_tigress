@@ -7,12 +7,12 @@ CREATE TYPE rxnfp;
 CREATE FUNCTION rxnfp_in(cstring)
     RETURNS rxnfp
     AS 'libpgchem'
-    LANGUAGE C IMMUTABLE STRICT;
+    LANGUAGE 'c' IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION rxnfp_out(rxnfp)
     RETURNS cstring
    AS 'libpgchem'
-    LANGUAGE C IMMUTABLE STRICT;
+    LANGUAGE 'c' IMMUTABLE STRICT;
 
 CREATE TYPE rxnfp (
    input = rxnfp_in,
@@ -24,22 +24,22 @@ CREATE TYPE rxnfp (
 CREATE FUNCTION reaction_in(cstring)
     RETURNS reaction
     AS 'libpgchem'
-    LANGUAGE C IMMUTABLE STRICT;
+    LANGUAGE 'c' IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION reaction_out(reaction)
     RETURNS cstring
    AS 'libpgchem'
-    LANGUAGE C IMMUTABLE STRICT;
+    LANGUAGE 'c' IMMUTABLE STRICT;
 
 CREATE  OR REPLACE  FUNCTION reaction_recv(internal)
    RETURNS reaction
   AS 'libpgchem'
-   LANGUAGE C IMMUTABLE STRICT;
+   LANGUAGE 'c' IMMUTABLE STRICT;
 
 CREATE  OR REPLACE  FUNCTION reaction_send(reaction)
    RETURNS bytea
   AS 'libpgchem'
-   LANGUAGE C IMMUTABLE STRICT;
+   LANGUAGE 'c' IMMUTABLE STRICT;
 
 CREATE TYPE reaction (
    input = reaction_in,
@@ -53,77 +53,77 @@ CREATE TYPE reaction (
 CREATE  OR REPLACE  FUNCTION rxnfp_compress(internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'C';
+LANGUAGE 'c';
 
 CREATE  OR REPLACE FUNCTION rxnfp_decompress(internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'C';
+LANGUAGE 'c';
 
 CREATE  OR REPLACE FUNCTION rxnfp_penalty(internal,internal,internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'C' WITH (isstrict);
+LANGUAGE 'c' WITH (isstrict);
 
 CREATE  OR REPLACE FUNCTION rxnfp_picksplit(internal,internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'C' WITH (isstrict);
+LANGUAGE 'c' WITH (isstrict);
 
 CREATE  OR REPLACE FUNCTION rxnfp_union(internal, internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'C';
+LANGUAGE 'c';
 
 CREATE  OR REPLACE FUNCTION rxnfp_same(internal, internal, internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'C';
+LANGUAGE 'c';
 
 CREATE  OR REPLACE FUNCTION rxnfp_consistent(internal,internal,int4)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'C';
+LANGUAGE 'c';
 
 CREATE  OR REPLACE FUNCTION reaction_contained_in(reaction,reaction)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'C' with (isstrict);
+LANGUAGE 'c' with (isstrict);
 
 CREATE  OR REPLACE FUNCTION reaction_contains(reaction,reaction)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'C' with (isstrict);
+LANGUAGE 'c' with (isstrict);
 
 CREATE  OR REPLACE FUNCTION reaction_equals(reaction,reaction)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'C' with (isstrict);
+LANGUAGE 'c' with (isstrict);
 
 /* CREATE  OR REPLACE FUNCTION reaction_equals_products_exact(reaction,reaction)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'C' with (isstrict);
+LANGUAGE 'c' with (isstrict);
 
 CREATE  OR REPLACE FUNCTION reaction_equals_exact(reaction,reaction)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'C' with (isstrict);*/
+LANGUAGE 'c' with (isstrict);*/
 
 CREATE  OR REPLACE FUNCTION reaction_similarity(reaction,reaction)
 RETURNS double precision
 AS 'libpgchem'
-LANGUAGE 'C' with (isstrict);
+LANGUAGE 'c' with (isstrict);
 
 CREATE  OR REPLACE FUNCTION reaction_similarity_reactants(reaction,reaction)
 RETURNS double precision
 AS 'libpgchem'
-LANGUAGE 'C' with (isstrict);
+LANGUAGE 'c' with (isstrict);
 
 CREATE  OR REPLACE FUNCTION reaction_similarity_products(reaction,reaction)
 RETURNS double precision
 AS 'libpgchem'
-LANGUAGE 'C' with (isstrict);
+LANGUAGE 'c' with (isstrict);
 
 CREATE OPERATOR <= (
 		 LEFTARG = reaction,
