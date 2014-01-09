@@ -1,7 +1,7 @@
 /************************************************************************
  * reaction_io.c reaction input/output support functions
  *
- * Copyright (c) 2007,2012 by Ernst-G. Schmid
+ * Copyright (c) 2007,2013 by Ernst-G. Schmid
  *
  * This file is part of the xchem::tigress project.
  *

@@ -1,7 +1,7 @@
 /************************************************************************
  * functions.c native chemistry handling functions
  *
- * Copyright (c) 2004,2012 by Ernst-G. Schmid
+ * Copyright (c) 2004,2013 by Ernst-G. Schmid
  *
  * This file is part of the xchem::tigress project.
  *
@@ -1792,7 +1792,7 @@ Datum
 pgchem_r_molecule_at(PG_FUNCTION_ARGS)
 {
     REACTION *arg_reaction = PG_GETARG_REACTION_P (0);
-    int4 arg_position = PG_GETARG_INT32 (1);
+    int32 arg_position = PG_GETARG_INT32 (1);
     MOLECULE *retval;
     char *offset = MOLARRAYPTR(arg_reaction);
     int i,len;
