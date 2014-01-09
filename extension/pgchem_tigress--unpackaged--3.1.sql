@@ -1,7 +1,7 @@
-﻿/**********************************************************************
+/**********************************************************************
  * pgchem_setup.sql unified type, operator and function setup file for pgchem GiST
  *
- * Copyright (c) 2004,2011 by Ernst-G. Schmid
+ * Copyright (c) 2004,2013 by Ernst-G. Schmid
  *
  * This file is part of the pgchem::tigress project.
  * For more information, see
@@ -16,6 +16,7 @@
  * GNU General Public License for more details.
  ************************************************************************/
 
+
 DROP TYPE IF EXISTS molecule CASCADE;
 DROP TYPE IF EXISTS molfp CASCADE;
 
@@ -24,12 +25,12 @@ CREATE TYPE molfp;
 
 CREATE OR REPLACE FUNCTION molfp_in(cstring)
     RETURNS molfp
-    AS 'libpgchem'
+    AS '$libdir/libpgchem'
     LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION molfp_out(molfp)
     RETURNS cstring
-   AS 'libpgchem'
+   AS '$libdir/libpgchem'
     LANGUAGE C IMMUTABLE STRICT;
 
 CREATE TYPE molfp (
@@ -44,22 +45,22 @@ CREATE TYPE molfp (
 
 CREATE OR REPLACE FUNCTION molecule_in(cstring)
     RETURNS molecule
-    AS 'libpgchem'
+    AS '$libdir/libpgchem'
     LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION molecule_out(molecule)
     RETURNS cstring
-   AS 'libpgchem'
+   AS '$libdir/libpgchem'
     LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION molecule_recv(internal)
    RETURNS molecule
-  AS 'libpgchem'
+  AS '$libdir/libpgchem'
    LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION molecule_send(molecule)
    RETURNS bytea
-  AS 'libpgchem'
+  AS '$libdir/libpgchem'
    LANGUAGE C IMMUTABLE STRICT;
 
 CREATE TYPE molecule (
@@ -74,67 +75,67 @@ CREATE TYPE molecule (
 
 CREATE OR REPLACE FUNCTION molfp_compress(internal)
 RETURNS internal
-AS 'libpgchem'
+AS '$libdir/libpgchem'
 LANGUAGE C;
 
 CREATE OR REPLACE FUNCTION molfp_decompress(internal)
 RETURNS internal
-AS 'libpgchem'
+AS '$libdir/libpgchem'
 LANGUAGE C;
 
 CREATE OR REPLACE FUNCTION molfp_penalty(internal,internal,internal)
 RETURNS internal
-AS 'libpgchem'
+AS '$libdir/libpgchem'
 LANGUAGE C WITH (isstrict);
 
 CREATE OR REPLACE FUNCTION molfp_picksplit(internal,internal)
 RETURNS internal
-AS 'libpgchem'
+AS '$libdir/libpgchem'
 LANGUAGE C WITH (isstrict);
 
 CREATE OR REPLACE FUNCTION molfp_union(internal, internal)
 RETURNS internal
-AS 'libpgchem'
+AS '$libdir/libpgchem'
 LANGUAGE C;
 
 CREATE OR REPLACE FUNCTION molfp_same(internal, internal, internal)
 RETURNS internal
-AS 'libpgchem'
+AS '$libdir/libpgchem'
 LANGUAGE C;
 
 CREATE OR REPLACE FUNCTION molfp_consistent(internal,internal,int4)
 RETURNS bool
-AS 'libpgchem'
+AS '$libdir/libpgchem'
 LANGUAGE C;
 
 CREATE OR REPLACE FUNCTION molecule_contained_in(molecule,molecule)
 RETURNS bool
-AS 'libpgchem'
+AS '$libdir/libpgchem'
 LANGUAGE C with (isstrict);
 
 CREATE OR REPLACE FUNCTION molecule_contains(molecule,molecule)
 RETURNS bool
-AS 'libpgchem'
+AS '$libdir/libpgchem'
 LANGUAGE C with (isstrict);
 
 CREATE OR REPLACE FUNCTION molecule_maybe_contained_in(molecule,molecule)
 RETURNS bool
-AS 'libpgchem'
+AS '$libdir/libpgchem'
 LANGUAGE C with (isstrict);
 
 /*CREATE OR REPLACE FUNCTION molecule_maybe_contains(molecule,molecule)
 RETURNS bool
-AS 'libpgchem'
+AS '$libdir/libpgchem'
 LANGUAGE C with (isstrict);*/
 
 CREATE OR REPLACE FUNCTION molecule_equals(molecule,molecule)
 RETURNS bool
-AS 'libpgchem'
+AS '$libdir/libpgchem'
 LANGUAGE C with (isstrict);
 
 CREATE OR REPLACE FUNCTION molecule_similarity(molecule,molecule)
 RETURNS double precision
-AS 'libpgchem'
+AS '$libdir/libpgchem'
 LANGUAGE C with (isstrict);
 
 CREATE OPERATOR < (
@@ -208,17 +209,17 @@ AS
 
 CREATE OR REPLACE FUNCTION molecule_in(text)
   RETURNS molecule AS
-'libpgchem', 'molecule_in_text'
+'$libdir/libpgchem', 'molecule_in_text'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION molecule_in(character varying)
   RETURNS molecule AS
-'libpgchem', 'molecule_in_varchar'
+'$libdir/libpgchem', 'molecule_in_varchar'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION molecule_in(bytea)
   RETURNS molecule AS
-'libpgchem', 'molecule_in_bytea'
+'$libdir/libpgchem', 'molecule_in_bytea'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE CAST (text AS molecule)
@@ -232,77 +233,77 @@ CREATE CAST (bytea AS molecule)
 
 CREATE OR REPLACE FUNCTION add_hydrogens(molecule, boolean, boolean)
   RETURNS molecule AS
-'libpgchem', 'pgchem_add_hydrogens'
+'$libdir/libpgchem', 'pgchem_add_hydrogens'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION exactmass(molecule)
   RETURNS double precision AS
-'libpgchem', 'pgchem_exactmass'
+'$libdir/libpgchem', 'pgchem_exactmass'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION fgroup_codes(molecule)
   RETURNS text AS
-'libpgchem', 'pgchem_fgroup_codes_a'
+'$libdir/libpgchem', 'pgchem_fgroup_codes_a'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION is_2d(molecule)
   RETURNS boolean AS
-'libpgchem', 'pgchem_2D'
+'$libdir/libpgchem', 'pgchem_2D'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION is_3d(molecule)
   RETURNS boolean AS
-'libpgchem', 'pgchem_3D'
+'$libdir/libpgchem', 'pgchem_3D'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION is_chiral(molecule)
   RETURNS boolean AS
-'libpgchem', 'pgchem_is_chiral'
+'$libdir/libpgchem', 'pgchem_is_chiral'
   LANGUAGE C IMMUTABLE STRICT;
 
 /*CREATE OR REPLACE FUNCTION is_nostruct(molecule)
   RETURNS boolean AS
-'libpgchem', 'pgchem_is_nostruct'
+'$libdir/libpgchem', 'pgchem_is_nostruct'
   LANGUAGE C IMMUTABLE STRICT;*/
 
 CREATE OR REPLACE FUNCTION inchi(molecule)
   RETURNS text AS
-'libpgchem', 'pgchem_molecule_to_inchi'
+'$libdir/libpgchem', 'pgchem_molecule_to_inchi'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION canonical_smiles(molecule,boolean)
   RETURNS text AS
-'libpgchem', 'pgchem_molecule_to_canonical_smiles'
+'$libdir/libpgchem', 'pgchem_molecule_to_canonical_smiles'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION smiles(molecule, boolean)
   RETURNS text AS
-'libpgchem', 'pgchem_molecule_to_smiles'
+'$libdir/libpgchem', 'pgchem_molecule_to_smiles'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION v3000(molecule)
   RETURNS text AS
-'libpgchem', 'pgchem_molecule_to_V3000'
+'$libdir/libpgchem', 'pgchem_molecule_to_V3000'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION v2000(molecule)
   RETURNS text AS
-'libpgchem', 'pgchem_molecule_to_V2000'
+'$libdir/libpgchem', 'pgchem_molecule_to_V2000'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION molformula(molecule)
   RETURNS text AS
-'libpgchem', 'pgchem_hillformula'
+'$libdir/libpgchem', 'pgchem_hillformula'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION molweight(molecule)
   RETURNS double precision AS
-'libpgchem', 'pgchem_molweight'
+'$libdir/libpgchem', 'pgchem_molweight'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION molkeys_long(molecule, boolean, boolean, boolean)
   RETURNS text AS
-'libpgchem', 'pgchem_ms_fingerprint_long_a'
+'$libdir/libpgchem', 'pgchem_ms_fingerprint_long_a'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION molkeys_long(molecule)
@@ -316,61 +317,61 @@ $BODY$
 
 CREATE OR REPLACE FUNCTION molkeys_short(molecule)
   RETURNS text AS
-'libpgchem', 'pgchem_ms_fingerprint_short_a'
+'$libdir/libpgchem', 'pgchem_ms_fingerprint_short_a'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION number_of_atoms(molecule)
   RETURNS integer AS
-'libpgchem', 'pgchem_num_atoms'
+'$libdir/libpgchem', 'pgchem_num_atoms'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION number_of_bonds(molecule)
   RETURNS integer AS
-'libpgchem', 'pgchem_num_bonds'
+'$libdir/libpgchem', 'pgchem_num_bonds'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION number_of_heavy_atoms(molecule)
   RETURNS integer AS
-'libpgchem', 'pgchem_num_heavy_atoms'
+'$libdir/libpgchem', 'pgchem_num_heavy_atoms'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION number_of_rotatable_bonds(molecule)
   RETURNS integer AS
-'libpgchem', 'pgchem_num_rotatable_bonds'
+'$libdir/libpgchem', 'pgchem_num_rotatable_bonds'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION pgchem_barsoi_version()
   RETURNS cstring AS
-'libpgchem', 'pgchem_barsoi_version'
+'$libdir/libpgchem', 'pgchem_barsoi_version'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION pgchem_version()
   RETURNS cstring AS
-'libpgchem', 'pgchem_version'
+'$libdir/libpgchem', 'pgchem_version'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION remove_hydrogens(molecule, boolean)
   RETURNS molecule AS
-'libpgchem', 'pgchem_remove_hydrogens'
+'$libdir/libpgchem', 'pgchem_remove_hydrogens'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION strip_salts(molecule, boolean)
   RETURNS molecule AS
-'libpgchem', 'pgchem_strip_salts'
+'$libdir/libpgchem', 'pgchem_strip_salts'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION total_charge(molecule)
   RETURNS integer AS
-'libpgchem', 'pgchem_total_charge'
+'$libdir/libpgchem', 'pgchem_total_charge'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION original_format(molecule)
-  
+
 RETURNS cstring AS
- 
-'libpgchem', 'pgchem_original_format'
- 
- LANGUAGE c IMMUTABLE STRICT
+
+'$libdir/libpgchem', 'pgchem_original_format'
+
+ LANGUAGE C IMMUTABLE STRICT
 ;
 
 CREATE OR REPLACE FUNCTION validate_cas_no(character varying)
@@ -394,8 +395,8 @@ cas_no_left:=split_part($1,'-',1);
 cas_no_right:=split_part($1,'-',2);
 cas_no_full:=cas_no_left || cas_no_right;
 
-if(length(cas_no_left)>7 OR length(cas_no_right)>2 OR length(checksum_from_cas_no)!=1) THEN 
-return false; 
+if(length(cas_no_left)>7 OR length(cas_no_right)>2 OR length(checksum_from_cas_no)!=1) THEN
+return false;
 END IF;
 
 caslen:=length(cas_no_full);
@@ -413,47 +414,47 @@ $BODY$
 
 CREATE OR REPLACE FUNCTION logP(molecule)
   RETURNS double precision AS
-'libpgchem', 'pgchem_logP'
+'$libdir/libpgchem', 'pgchem_logP'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION MR(molecule)
   RETURNS double precision AS
-'libpgchem', 'pgchem_MR'
+'$libdir/libpgchem', 'pgchem_MR'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION TPSA(molecule)
   RETURNS double precision AS
-'libpgchem', 'pgchem_TPSA'
+'$libdir/libpgchem', 'pgchem_TPSA'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION SMARTSmatch(text, molecule)
   RETURNS boolean AS
-'libpgchem', 'pgchem_smartsfilter'
+'$libdir/libpgchem', 'pgchem_smartsfilter'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION SMARTSmatch_count(text, molecule)
   RETURNS integer AS
-'libpgchem', 'pgchem_smartsfilter_count'
+'$libdir/libpgchem', 'pgchem_smartsfilter_count'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION inchikey(molecule)
   RETURNS text AS
-'libpgchem', 'pgchem_molecule_to_inchikey'
+'$libdir/libpgchem', 'pgchem_molecule_to_inchikey'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION fpstring(molecule)
   RETURNS bit varying AS
-'libpgchem', 'pgchem_fp_out'
+'$libdir/libpgchem', 'pgchem_fp_out'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION number_of_h_acceptors(molecule)
   RETURNS integer AS
-'libpgchem', 'pgchem_num_H_acceptors'
+'$libdir/libpgchem', 'pgchem_num_H_acceptors'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION number_of_h_donors(molecule)
   RETURNS integer AS
-'libpgchem', 'pgchem_num_H_donors'
+'$libdir/libpgchem', 'pgchem_num_H_donors'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION lipinsky(mol molecule)
@@ -483,12 +484,12 @@ $BODY$
 
 CREATE OR REPLACE FUNCTION mutabor(molecule)
   RETURNS molecule AS
-'libpgchem', 'pgchem_mutate_fp'
+'$libdir/libpgchem', 'pgchem_mutate_fp'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION delebor(molecule)
   RETURNS molecule AS
-'libpgchem', 'pgchem_blank_fp'
+'$libdir/libpgchem', 'pgchem_blank_fp'
   LANGUAGE C IMMUTABLE STRICT;
 
 -- Function: fp2string(molecule)
@@ -561,12 +562,12 @@ $BODY$
 
 CREATE OR REPLACE FUNCTION nbits_set(bit varying)
   RETURNS integer AS
-'libpgchem', 'pgchem_nbits_set'
+'$libdir/libpgchem', 'pgchem_nbits_set'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION disconnected(molecule)
   RETURNS boolean AS
-'libpgchem', 'pgchem_disconnected'
+'$libdir/libpgchem', 'pgchem_disconnected'
   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION check_fingerprint_optimization(t_schema text, t_name text, s_column text)
@@ -620,8 +621,8 @@ p:=0.5;
 q:=0.5;
 d:=0.05;
 
-t_q_name := t_schema || '.q_' || t_name; 
-t_s_q_name := t_schema || '.s_q_' || t_name; 
+t_q_name := t_schema || '.q_' || t_name;
+t_s_q_name := t_schema || '.s_q_' || t_name;
 
 EXECUTE 'DROP TABLE IF EXISTS '||t_s_q_name;
 
@@ -675,14 +676,14 @@ CREATE OR REPLACE FUNCTION optimize_fingerprint(t_schema text, t_name text, s_co
 $BODY$
 BEGIN
 
-IF (algorithm='LP') THEN 
+IF (algorithm='LP') THEN
 BEGIN
 PERFORM optimize_fingerprint_step_one(t_schema, t_name, s_column, use_sampling , basedict ,p_limit);
 RETURN optimize_fingerprint_step_two(t_schema, t_name, s_column);
 END;
 ELSIF (algorithm='GA') THEN
-RAISE EXCEPTION 'Genetic optimization only externally supported'; 
-ELSE RAISE EXCEPTION 'Algorithm % not supported',algorithm; 
+RAISE EXCEPTION 'Genetic optimization only externally supported';
+ELSE RAISE EXCEPTION 'Algorithm % not supported',algorithm;
 END IF;
 
 RAISE INFO 'Optimization on % complete. Achieved rate %',t_schema||'.'||t_name, rate;
@@ -717,9 +718,9 @@ BEGIN
 t_dict_tmp_name := t_schema || '.' || t_name || '_dictionary_tmp';
 t_dict_name := t_schema || '.' || t_name || '_dictionary';
 t_sel_name := t_schema || '.' || t_name || '_selectivity';
-t_q_name := t_schema || '.q_' || t_name; 
-t_b_name := t_schema || '.' || t_name; 
-t_h_name := t_schema || '.' || t_name || '_helper'; 
+t_q_name := t_schema || '.q_' || t_name;
+t_b_name := t_schema || '.' || t_name;
+t_h_name := t_schema || '.' || t_name || '_helper';
 
 EXECUTE 'DROP TABLE IF EXISTS ' || t_dict_tmp_name;
 
@@ -781,7 +782,7 @@ expansionarray[1] = tablesize - hitcount;
 
 FOR i IN 1..9 LOOP
 
-	IF (expansionarray[i] > 0) THEN 
+	IF (expansionarray[i] > 0) THEN
 		BEGIN
 		expcount := expcount + 1;
 		x := x+(power(expansionarray[i] - e,2)/e);
@@ -828,7 +829,7 @@ DECLARE tablesize integer;
 DECLARE t_q_name text;
 BEGIN
 
-t_q_name := t_schema || '.q_' || t_name; 
+t_q_name := t_schema || '.q_' || t_name;
 
 EXECUTE 'UPDATE '||t_q_name||' SET structure=mutabor('||s_column||')';
 
@@ -865,13 +866,13 @@ $BODY$
 
 CREATE OR REPLACE FUNCTION fpmaccsstring(molecule)
   RETURNS bit varying AS
-'libpgchem', 'pgchem_fp_MACCS'
+'$libdir/libpgchem', 'pgchem_fp_MACCS'
   LANGUAGE C IMMUTABLE STRICT
   COST 1;
 
 CREATE OR REPLACE FUNCTION tversky(molecule, molecule, double precision, double precision)
   RETURNS double precision AS
-'libpgchem', 'pgchem_tversky'
+'$libdir/libpgchem', 'pgchem_tversky'
   LANGUAGE C VOLATILE STRICT
   COST 1;
 
@@ -887,8 +888,8 @@ $BODY$
 
 CREATE OR REPLACE FUNCTION spectrophore(molecule)
   RETURNS text AS
-'libpgchem', 'pgchem_spectrophore'
-  LANGUAGE c IMMUTABLE STRICT
+'$libdir/libpgchem', 'pgchem_spectrophore'
+  LANGUAGE C IMMUTABLE STRICT
   COST 1;
 
 CREATE OR REPLACE FUNCTION spectrophore_array(mol molecule)
@@ -903,14 +904,14 @@ $BODY$
 
 CREATE OR REPLACE FUNCTION svg(molecule)
   RETURNS text AS
-'libpgchem', 'pgchem_molecule_to_svg'
-  LANGUAGE c IMMUTABLE STRICT
+'$libdir/libpgchem', 'pgchem_molecule_to_svg'
+  LANGUAGE C IMMUTABLE STRICT
   COST 1;
 
 /*CREATE OR REPLACE FUNCTION reversestring(character varying)
   RETURNS character varying AS
-'libpgchem', 'reversestring'
-  LANGUAGE c IMMUTABLE STRICT
+'$libdir/libpgchem', 'reversestring'
+  LANGUAGE C IMMUTABLE STRICT
   COST 1;
 
 CREATE OR REPLACE FUNCTION fp3fps(struct molecule)

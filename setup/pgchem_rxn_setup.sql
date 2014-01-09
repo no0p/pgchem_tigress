@@ -7,12 +7,12 @@ CREATE TYPE rxnfp;
 CREATE FUNCTION rxnfp_in(cstring)
     RETURNS rxnfp
     AS 'libpgchem'
-    LANGUAGE 'c' IMMUTABLE STRICT;
+    LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION rxnfp_out(rxnfp)
     RETURNS cstring
    AS 'libpgchem'
-    LANGUAGE 'c' IMMUTABLE STRICT;
+    LANGUAGE C IMMUTABLE STRICT;
 
 CREATE TYPE rxnfp (
    input = rxnfp_in,
@@ -24,22 +24,22 @@ CREATE TYPE rxnfp (
 CREATE FUNCTION reaction_in(cstring)
     RETURNS reaction
     AS 'libpgchem'
-    LANGUAGE 'c' IMMUTABLE STRICT;
+    LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION reaction_out(reaction)
     RETURNS cstring
    AS 'libpgchem'
-    LANGUAGE 'c' IMMUTABLE STRICT;
+    LANGUAGE C IMMUTABLE STRICT;
 
 CREATE  OR REPLACE  FUNCTION reaction_recv(internal)
    RETURNS reaction
   AS 'libpgchem'
-   LANGUAGE 'c' IMMUTABLE STRICT;
+   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE  OR REPLACE  FUNCTION reaction_send(reaction)
    RETURNS bytea
   AS 'libpgchem'
-   LANGUAGE 'c' IMMUTABLE STRICT;
+   LANGUAGE C IMMUTABLE STRICT;
 
 CREATE TYPE reaction (
    input = reaction_in,
@@ -53,77 +53,77 @@ CREATE TYPE reaction (
 CREATE  OR REPLACE  FUNCTION rxnfp_compress(internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'c';
+LANGUAGE C;
 
 CREATE  OR REPLACE FUNCTION rxnfp_decompress(internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'c';
+LANGUAGE C;
 
 CREATE  OR REPLACE FUNCTION rxnfp_penalty(internal,internal,internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'c' WITH (isstrict);
+LANGUAGE C WITH (isstrict);
 
 CREATE  OR REPLACE FUNCTION rxnfp_picksplit(internal,internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'c' WITH (isstrict);
+LANGUAGE C WITH (isstrict);
 
 CREATE  OR REPLACE FUNCTION rxnfp_union(internal, internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'c';
+LANGUAGE C;
 
 CREATE  OR REPLACE FUNCTION rxnfp_same(internal, internal, internal)
 RETURNS internal
 AS 'libpgchem'
-LANGUAGE 'c';
+LANGUAGE C;
 
 CREATE  OR REPLACE FUNCTION rxnfp_consistent(internal,internal,int4)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'c';
+LANGUAGE C;
 
 CREATE  OR REPLACE FUNCTION reaction_contained_in(reaction,reaction)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'c' with (isstrict);
+LANGUAGE C with (isstrict);
 
 CREATE  OR REPLACE FUNCTION reaction_contains(reaction,reaction)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'c' with (isstrict);
+LANGUAGE C with (isstrict);
 
 CREATE  OR REPLACE FUNCTION reaction_equals(reaction,reaction)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'c' with (isstrict);
+LANGUAGE C with (isstrict);
 
 /* CREATE  OR REPLACE FUNCTION reaction_equals_products_exact(reaction,reaction)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'c' with (isstrict);
+LANGUAGE C with (isstrict);
 
 CREATE  OR REPLACE FUNCTION reaction_equals_exact(reaction,reaction)
 RETURNS bool
 AS 'libpgchem'
-LANGUAGE 'c' with (isstrict);*/
+LANGUAGE C with (isstrict);*/
 
 CREATE  OR REPLACE FUNCTION reaction_similarity(reaction,reaction)
 RETURNS double precision
 AS 'libpgchem'
-LANGUAGE 'c' with (isstrict);
+LANGUAGE C with (isstrict);
 
 CREATE  OR REPLACE FUNCTION reaction_similarity_reactants(reaction,reaction)
 RETURNS double precision
 AS 'libpgchem'
-LANGUAGE 'c' with (isstrict);
+LANGUAGE C with (isstrict);
 
 CREATE  OR REPLACE FUNCTION reaction_similarity_products(reaction,reaction)
 RETURNS double precision
 AS 'libpgchem'
-LANGUAGE 'c' with (isstrict);
+LANGUAGE C with (isstrict);
 
 CREATE OPERATOR <= (
 		 LEFTARG = reaction,
@@ -209,17 +209,17 @@ AS
 CREATE OR REPLACE FUNCTION reaction_in(text)
   RETURNS reaction AS
 'libpgchem', 'reaction_in_text'
-  LANGUAGE 'c' IMMUTABLE STRICT;
+  LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION reaction_in(character varying)
   RETURNS reaction AS
 'libpgchem', 'reaction_in_varchar'
-  LANGUAGE 'c' IMMUTABLE STRICT;
+  LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION reaction_in(bytea)
   RETURNS reaction AS
 'libpgchem', 'reaction_in_bytea'
-  LANGUAGE 'c' IMMUTABLE STRICT;
+  LANGUAGE C IMMUTABLE STRICT;
 
 CREATE CAST (text AS reaction)
   WITH FUNCTION reaction_in(text);
@@ -233,25 +233,25 @@ CREATE CAST (bytea AS reaction)
 CREATE OR REPLACE FUNCTION number_of_products(reaction)
   RETURNS integer AS
 'libpgchem', 'pgchem_r_num_products'
-  LANGUAGE 'c' IMMUTABLE STRICT
+  LANGUAGE C IMMUTABLE STRICT
   COST 1;
 
 CREATE OR REPLACE FUNCTION number_of_reactants(reaction)
   RETURNS integer AS
 'libpgchem', 'pgchem_r_num_reactants'
-  LANGUAGE 'c' IMMUTABLE STRICT
+  LANGUAGE C IMMUTABLE STRICT
   COST 1;
 
 CREATE OR REPLACE FUNCTION reaction_molecule(reaction, integer)
   RETURNS molecule AS
 'libpgchem', 'pgchem_r_molecule_at'
-  LANGUAGE 'c' IMMUTABLE STRICT
+  LANGUAGE C IMMUTABLE STRICT
   COST 1;
 
 CREATE OR REPLACE FUNCTION fpstring(reaction)
   RETURNS bit varying AS
 'libpgchem', 'pgchem_r_fp_out'
-  LANGUAGE 'c' IMMUTABLE STRICT
+  LANGUAGE C IMMUTABLE STRICT
   COST 1;
 
 CREATE OR REPLACE FUNCTION reactant(rxn reaction, pos integer)
@@ -283,13 +283,13 @@ $BODY$
 CREATE OR REPLACE FUNCTION smiles(reaction)
   RETURNS text AS
 'libpgchem', 'pgchem_r_reaction_to_smiles'
-  LANGUAGE 'c' IMMUTABLE STRICT
+  LANGUAGE C IMMUTABLE STRICT
   COST 1;
 
 CREATE OR REPLACE FUNCTION strip_rxninfo(molecule)
   RETURNS molecule AS
 'libpgchem', 'pgchem_reaction_mol_strip_rxninfo'
-  LANGUAGE 'c' IMMUTABLE STRICT
+  LANGUAGE C IMMUTABLE STRICT
   COST 1;  
 
 CREATE OR REPLACE FUNCTION t_decompose_reaction()
