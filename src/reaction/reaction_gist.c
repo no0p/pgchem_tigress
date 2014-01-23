@@ -71,8 +71,8 @@ Datum rxnfp_union (PG_FUNCTION_ARGS);
 inline static RXNFP *
 new_rxnfp ()
 {
-    RXNFP *fp = (RXNFP *) palloc (sizeof(RXNFP));
-    memset(fp,0x0,sizeof(RXNFP));
+    RXNFP *fp = (RXNFP *) palloc0 (sizeof(RXNFP));
+    //memset(fp,0x0,sizeof(RXNFP));
     return fp;
 }
 

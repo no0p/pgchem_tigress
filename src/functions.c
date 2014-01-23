@@ -542,8 +542,8 @@ smiles_fail:
 
     len = strlen (tmpSmiles);
 
-    retval = (text *) palloc (len + VARHDRSZ);
-    memset(retval,0x0,len + VARHDRSZ);
+    retval = (text *) palloc0 (len + VARHDRSZ);
+    //memset(retval,0x0,len + VARHDRSZ);
 
     SET_VARSIZE (retval,(len + VARHDRSZ));
 
@@ -586,8 +586,8 @@ smiles_fail:
 
     len = strlen (tmpSmiles);
 
-    retval = (text *) palloc (len + VARHDRSZ);
-    memset(retval,0x0,len + VARHDRSZ);
+    retval = (text *) palloc0 (len + VARHDRSZ);
+    //memset(retval,0x0,len + VARHDRSZ);
 
     SET_VARSIZE (retval,(len + VARHDRSZ));
 
@@ -628,8 +628,8 @@ inchi_fail:
 
     len = strlen (tmpInChI);
 
-    retval = (text *) palloc (len + VARHDRSZ);
-    memset(retval,0x0,len + VARHDRSZ);
+    retval = (text *) palloc0 (len + VARHDRSZ);
+    //memset(retval,0x0,len + VARHDRSZ);
 
     SET_VARSIZE (retval,(len + VARHDRSZ));
 
@@ -677,8 +677,8 @@ v3000_fail:
 
     len = strlen (tmpV3000);
 
-    retval = (text *) palloc (len + VARHDRSZ);
-    memset(retval,0x0,len+VARHDRSZ);
+    retval = (text *) palloc0 (len + VARHDRSZ);
+    //memset(retval,0x0,len+VARHDRSZ);
 
     SET_VARSIZE (retval,(len + VARHDRSZ));
 
@@ -723,8 +723,8 @@ molfile_fail:
 
     len = strlen (tmpMolfile);
 
-    retval = (text *) palloc (len + VARHDRSZ);
-    memset(retval,0x0,len+VARHDRSZ);
+    retval = (text *) palloc0 (len + VARHDRSZ);
+    //memset(retval,0x0,len+VARHDRSZ);
 
     SET_VARSIZE (retval,(len + VARHDRSZ));
 
@@ -768,8 +768,8 @@ pgchem_hillformula (PG_FUNCTION_ARGS)
 
     len = strlen (tmpFormula);
 
-    retval = (text *) palloc (len + VARHDRSZ);
-    memset(retval,0x0,len + VARHDRSZ);
+    retval = (text *) palloc0 (len + VARHDRSZ);
+    //memset(retval,0x0,len + VARHDRSZ);
 
     SET_VARSIZE (retval,(len + VARHDRSZ));
 
@@ -977,7 +977,7 @@ pgchem_ms_fingerprint_long_a (PG_FUNCTION_ARGS)
 
     len = strlen (fpbuffer);
 
-    retval = (text *) palloc (len + VARHDRSZ);
+    retval = (text *) palloc0 (len + VARHDRSZ);
 
     SET_VARSIZE (retval,(len + VARHDRSZ));
 
@@ -1021,7 +1021,7 @@ pgchem_ms_fingerprint_short_a (PG_FUNCTION_ARGS)
 
     len = strlen (fpbuffer);
 
-    retval = (text *) palloc (len + VARHDRSZ);
+    retval = (text *) palloc0 (len + VARHDRSZ);
 
     SET_VARSIZE (retval,(len + VARHDRSZ));
 
@@ -1063,7 +1063,7 @@ pgchem_fgroup_codes_a (PG_FUNCTION_ARGS)
 
     len = strlen (fpbuffer);
 
-    retval = (text *) palloc (len + VARHDRSZ);
+    retval = (text *) palloc0 (len + VARHDRSZ);
 
     SET_VARSIZE (retval,(len + VARHDRSZ));
 
@@ -1351,8 +1351,8 @@ pgchem_smartsfilter (PG_FUNCTION_ARGS)
     MOLECULE *arg_molecule = PG_GETARG_MOLECULE_P (1);
     int smarts_string_len = VARSIZE (arg_smarts) - VARHDRSZ;
     int match = 0;
-    char *tmpSMARTS = (char *) palloc (smarts_string_len + 1);
-    tmpSMARTS[0] = '\0';
+    char *tmpSMARTS = (char *) palloc0 (smarts_string_len + 1);
+    //tmpSMARTS[0] = '\0';
 #ifdef BUILD_WITH_INDIGO
     int molhandle,queryhandle,matcherhandle;
 #endif
@@ -1393,8 +1393,8 @@ pgchem_smartsfilter_count (PG_FUNCTION_ARGS)
     text *arg_smarts = PG_GETARG_TEXT_P (0);
     MOLECULE *arg_molecule = PG_GETARG_MOLECULE_P (1);
     int smarts_string_len = VARSIZE (arg_smarts) - VARHDRSZ;
-    char *tmpSMARTS = (char *) palloc (smarts_string_len + 1);
-    tmpSMARTS[0] = '\0';
+    char *tmpSMARTS = (char *) palloc0 (smarts_string_len + 1);
+    //tmpSMARTS[0] = '\0';
 
     strncat (tmpSMARTS, VARDATA (arg_smarts), smarts_string_len);
 
@@ -1461,9 +1461,9 @@ pgchem_molecule_to_inchikey (PG_FUNCTION_ARGS)
     text *retval;
     MOLECULE *arg_molecule = PG_GETARG_MOLECULE_P (0);
 
-    retval = (text *) palloc (INCHIKEYSZ + VARHDRSZ);
+    retval = (text *) palloc0 (INCHIKEYSZ + VARHDRSZ);
 
-    memset(retval,0x0,INCHIKEYSZ + VARHDRSZ);
+    //memset(retval,0x0,INCHIKEYSZ + VARHDRSZ);
 
     memcpy (VARDATA (retval), arg_molecule->inchikey, INCHIKEYSZ);
 
@@ -1500,8 +1500,8 @@ svg_fail:
 
     len = strlen (tmpSVG);
 
-    retval = (text *) palloc (len + VARHDRSZ);
-    memset(retval,0x0,len+VARHDRSZ);
+    retval = (text *) palloc0 (len + VARHDRSZ);
+    //memset(retval,0x0,len+VARHDRSZ);
 
     SET_VARSIZE (retval,(len + VARHDRSZ));
 
@@ -1529,7 +1529,7 @@ pgchem_fp_out (PG_FUNCTION_ARGS)
     len = (OB_FPSIZE2+OB_FPSIZE3)*sizeof(uint32);
 #endif
 
-    retval = (VarBit *) palloc (len + VARBITHDRSZ);
+    retval = (VarBit *) palloc0 (len + VARBITHDRSZ);
 
 #ifdef BUILD_WITH_INDIGO
     memcpy(VARBITS(retval),&arg_molecule->fp.bytes[IN_FPSTART],len);
@@ -1557,7 +1557,7 @@ pgchem_fp_MACCS (PG_FUNCTION_ARGS)
     int len = OB_FPSIZE_MACCS*sizeof(uint32);
     uint32 *tmp_maccs;
 
-    retval = (VarBit *) palloc (len + VARBITHDRSZ);
+    retval = (VarBit *) palloc0 (len + VARBITHDRSZ);
 
     tmp_maccs = (uint32*) palloc(len);
 
@@ -1584,7 +1584,7 @@ pgchem_r_fp_out (PG_FUNCTION_ARGS)
     REACTION *arg_reaction = PG_GETARG_REACTION_P (0);
     int len = 2*OB_FPSIZE2*sizeof(uint32);
 
-    retval = (VarBit *) palloc (len + VARBITHDRSZ);
+    retval = (VarBit *) palloc0 (len + VARBITHDRSZ);
 
     memcpy(VARBITS(retval),arg_reaction->fp,len);
 
@@ -1622,8 +1622,8 @@ desc_fail:
 
     len = strlen (tmpDESC);
 
-    retval = (text *) palloc (len + VARHDRSZ);
-    memset(retval,0x0,len+VARHDRSZ);
+    retval = (text *) palloc0 (len + VARHDRSZ);
+    //memset(retval,0x0,len+VARHDRSZ);
 
     SET_VARSIZE (retval,(len + VARHDRSZ));
 
@@ -1807,9 +1807,9 @@ pgchem_r_molecule_at(PG_FUNCTION_ARGS)
 
     len = VARSIZE((MOLECULE*)offset)*sizeof(char);
 
-    retval = (MOLECULE*) palloc(len);
+    retval = (MOLECULE*) palloc0(len);
 
-    memset(retval,0x0,len);
+    //memset(retval,0x0,len);
 
     memcpy(retval,(MOLECULE*)offset,len);
 
@@ -1836,9 +1836,9 @@ pgchem_r_reaction_to_smiles (PG_FUNCTION_ARGS)
 
     offset = MOLARRAYPTR(reaction);
 
-    tmpBuf = (char *) palloc (size+sizeof(char));
+    tmpBuf = (char *) palloc0 (size+sizeof(char));
 
-    memset(tmpBuf,0x0,size+sizeof(char));
+    //memset(tmpBuf,0x0,size+sizeof(char));
 
     for(i=0; i<reaction->num_reactants; i++)
     {
@@ -1872,9 +1872,9 @@ pgchem_r_reaction_to_smiles (PG_FUNCTION_ARGS)
         offset+=VARSIZE(tmpMol)*sizeof(char);
     }
 
-    result = (text *) palloc(strlen(tmpBuf)+VARHDRSZ);
+    result = (text *) palloc0(strlen(tmpBuf)+VARHDRSZ);
 
-    memset(result,0x0,strlen(tmpBuf)+VARHDRSZ);
+    //memset(result,0x0,strlen(tmpBuf)+VARHDRSZ);
 
     memcpy(VARDATA(result),tmpBuf,strlen(tmpBuf));
 
@@ -1919,9 +1919,9 @@ pgchem_spectrophore (PG_FUNCTION_ARGS)
 
     len = strlen(spectrophore);
 
-    retval = (text *) palloc (len + VARHDRSZ);
+    retval = (text *) palloc0 (len + VARHDRSZ);
 
-    memset(retval,0x0,len + VARHDRSZ);
+    //memset(retval,0x0,len + VARHDRSZ);
 
     memcpy (VARDATA (retval), spectrophore, len);
 

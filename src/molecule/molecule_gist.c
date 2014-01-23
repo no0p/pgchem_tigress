@@ -75,8 +75,8 @@ Datum molfp_union (PG_FUNCTION_ARGS);
 inline static MOLFP *
 new_molfp ()
 {
-    MOLFP *fp = (MOLFP *) palloc (sizeof(MOLFP));
-    memset(fp,0x0,sizeof(MOLFP));
+    MOLFP *fp = (MOLFP *) palloc0 (sizeof(MOLFP));
+    //memset(fp,0x0,sizeof(MOLFP));
     return fp;
 }
 

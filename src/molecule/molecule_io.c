@@ -449,9 +449,9 @@ new_molecule (char *smiles, char *original_data, char *ancillarydata)
 
     totalsize = CALCDATASZ (compressed_data->compressed_size, sizesmi, ancsize);
 
-    result = (MOLECULE *) palloc (totalsize);
+    result = (MOLECULE *) palloc0 (totalsize);
 
-    memset (result, 0x0, totalsize);
+    //memset (result, 0x0, totalsize);
 
     if (strchr (smiles, '.') != NULL)
         result->disconnected = true;
@@ -1012,19 +1012,19 @@ molecule_out (PG_FUNCTION_ARGS)
 
     if(molecule->original_format == FORMAT_SMILES)
     {
-        result = (char *) palloc (molecule->sizesmi);
+        result = (char *) palloc0 (molecule->sizesmi);
 
-        memset(result,0x0,molecule->sizesmi);
+        //memset(result,0x0,molecule->sizesmi);
 
         strncpy (result, SMIPTR(molecule), molecule->sizesmi);
     }
     else
     {
-        result = (char *) palloc (molecule->sizeo);
+        result = (char *) palloc0 (molecule->sizeo);
 
         original_data = decompress_data(CIPTR (molecule), molecule->compressed_sizeo, molecule->sizeo);
 
-        memset(result,0x0,molecule->sizeo);
+        //memset(result,0x0,molecule->sizeo);
 
         strncpy (result, original_data->decompressed_data, molecule->sizeo);
     }
@@ -1049,11 +1049,11 @@ molecule_recv (PG_FUNCTION_ARGS)
     StringInfo buf = (StringInfo) PG_GETARG_POINTER (0);
     int len = buf->len;
     const char *str = pq_getmsgbytes (buf, len);
-    MOLECULE *result = (MOLECULE *) palloc (len);
+    MOLECULE *result = (MOLECULE *) palloc0 (len);
 
     //SET_VARSIZE (result,(buf->len + VARHDRSZ));
 
-    memset(result,0x0,len);
+    //memset(result,0x0,len);
 
     memcpy (result, str, len);
 
